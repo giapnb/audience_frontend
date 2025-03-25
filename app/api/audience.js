@@ -4,18 +4,27 @@
  * @param method
  * @param accessToken
  */
-export async function call_api(endpoint, method, accessToken) {
-    const headers = new Headers();
-    const bearer = `Bearer ${accessToken}`;
 
-    headers.append("Authorization", bearer);
+export const  call_api = async (endpoint, method, accessToken) => {
+    try {
 
-    const options = {
-        method: method,
-        headers: headers
-    };
+        const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/${endpoint}`, {
+            method: method,
 
-    return fetch(endpoint, options)
-        .then(response => response.json())
-        .catch(error => console.log(error));
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+            }
+        });
+
+        // Kiểm tra xem phản hồi có thành công hay không
+        if (!response.ok) {
+            throw new Error('Network response was not ok: ' + response.statusText);
+        }
+
+        return await response.json(); // Dữ liệu trả về từ API
+    } catch (error) {
+        console.error('Có lỗi xảy ra:', error.message);
+    }
+
 }

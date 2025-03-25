@@ -57,8 +57,3 @@ export const msalConfig = {
 export const loginRequest = {
     scopes: [import.meta.env.VITE_APP_SCOPE]
 };
-
-
-export const audienceConfig = {
-    root: `${import.meta.env.VITE_APP_API_URL}/`,
-};
